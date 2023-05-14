@@ -12,7 +12,7 @@ public class InventoryService {
 
     @Transactional(readOnly = true)
     public boolean isInStock(String skuCode) {
-        return inventoryRepository.findBySkuCodeIn().isPresent();
+        return inventoryRepository.findBySkuCode(skuCode).isPresent();
 
     }
 }
