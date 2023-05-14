@@ -1,7 +1,9 @@
 package com.example.productservice;
 
 import com.example.productservice.dto.ProductRequest;
+import com.example.productservice.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +30,8 @@ class ProductServiceApplicationTests {
 	private ObjectMapper objectMapper;
 	@Autowired
 	private MockMvc mockMvc;
+	@Autowired
+	private ProductRepository productRepository;
 
 	static {
 		mongoDBContainer.start();
@@ -45,6 +49,7 @@ class ProductServiceApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(productRequestString))
 				.andExpect(status().isCreated());
+		Assertions.assertEquals(1, productRepository.findAll().size());
 	}
 	private ProductRequest getProductRequest() {
 		return ProductRequest.builder()
